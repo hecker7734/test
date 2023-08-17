@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Custom Discord Link Generator</title>
+</head>
+<body>
+    <h1>Custom Discord Link Generator</h1>
+    <form id="metadataForm">
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="title"><br>
+        <label for="description">Description:</label><br>
+        <input type="text" id="description" name="description"><br>
+        <label for="image">Image URL:</label><br>
+        <input type="text" id="image" name="image"><br>
+        <label for="discordInvite">Discord Server Invite:</label><br>
+        <input type="text" id="discordInvite" name="discordInvite"><br><br>
+        <input type="button" value="Generate Link" onclick="generateLink()">
+    </form>
+    <p><a id="downloadLink" style="display: none;">Download Link HTML</a></p>
+
+    <script>
+        function generateLink() {
+            var title = document.getElementById("title").value;
+            var description = document.getElementById("description").value;
+            var image = document.getElementById("image").value;
+            var discordInvite = document.getElementById("discordInvite").value;
+
+            var htmlContent = `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta property="og:title" content="${title}">
+    <meta property="og:description" content="${description}">
+    <meta property="og:image" content="${image}">
+    <meta http-equiv="refresh" content="0;url=${discordInvite}">
+</head>
+<body>
+    <p>This is a custom Discord link with metadata and a server invite redirect.</p>
+</body>
+</html>
+`;
+
+            var blob = new Blob([htmlContent], { type: 'text/html' });
+            var url = URL.createObjectURL(blob);
+
+            var downloadLink = document.getElementById("downloadLink");
+            downloadLink.style.display = "block";
+            downloadLink.href = url;
+            downloadLink.download = "custom_discord_link.html";
+        }
+    </script>
+</body>
+</html>
